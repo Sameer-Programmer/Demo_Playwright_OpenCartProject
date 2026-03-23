@@ -42,6 +42,13 @@ command to run the tests with tags
 npx playwright test --grep "@master"
 
 
+step 5 
+How to Generate and Open the AllureReports 
+Command 
+To Generate the reports : allure generate ./allure-results -o ./allure-report --clean
+To Open the reports : allure open
+
+
 
 
 */

@@ -7,10 +7,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "devDependencies": {
+  "type": "commonjs",     
+  "devDependencies": {  
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.5.0",
+    "allure-commandline": "^2.38.1",
     "allure-playwright": "^3.6.0"
   },
   "dependencies": {
