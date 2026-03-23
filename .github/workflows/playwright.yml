@@ -1,24 +1,69 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  # Allows triggering the workflow manually and selecting the environment
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Environment to run tests against'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - dev
+          - qa
+          - preprod
+          - prod
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    # Set up global environment variables for passing secrets natively to Playwright
+    # Our env.config.ts logic looks for these based on the active ENV variable!
+    env:
+      # Use manual workflow dispatch input if available, fallback to hardcoded 'qa'
+      ENV: ${{ github.event.inputs.env || 'qa' }}
+      
+      # Inject GitHub Repository Secrets dynamically into runtime ENV pool
+      # .env is deliberately ignored, we load from secrets securely
+      DEV_URL: ${{ secrets.DEV_URL }}
+      DEV_USERNAME: ${{ secrets.DEV_USERNAME }}
+      DEV_PASSWORD: ${{ secrets.DEV_PASSWORD }}
+
+      QA_URL: ${{ secrets.QA_URL }}
+      QA_USERNAME: ${{ secrets.QA_USERNAME }}
+      QA_PASSWORD: ${{ secrets.QA_PASSWORD }}
+
+      PREPROD_URL: ${{ secrets.PREPROD_URL }}
+      PREPROD_USERNAME: ${{ secrets.PREPROD_USERNAME }}
+      PREPROD_PASSWORD: ${{ secrets.PREPROD_PASSWORD }}
+
+      PROD_URL: ${{ secrets.PROD_URL }}
+      PROD_USERNAME: ${{ secrets.PROD_USERNAME }}
+      PROD_PASSWORD: ${{ secrets.PROD_PASSWORD }}
+
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+        
     - name: Install dependencies
       run: npm ci
+      
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+      
     - name: Run Playwright tests
+      # The tests automatically detect the environment variables due to env.config.ts mapping
       run: npx playwright test
+      
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

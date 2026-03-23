@@ -68,26 +68,27 @@ Before you begin, ensure you have the following software installed:
     npx playwright install
     ```
 
-## ⚙️ Configuration
+## ⚙️ Environment Configuration & Credential Management
 
-The project uses a centralized configuration file `test.config.ts` to manage environment-specific settings and test data:
+The framework uses a **Multi-Environment Credential Management System** to safely handle multiple environments (`dev`, `qa`, `preprod`, `prod`) without hardcoding any secrets.
 
+### Local Execution (`.env`)
+1. An `.env` file (ignored by Git) lives at the project root.
+2. It contains credentials and URLs for all environments using prefixes (e.g., `QA_USERNAME`, `QA_PASSWORD`).
+3. You select the active environment by changing the `ENV=qa` variable at the top of the `.env` file.
+4. **Important**: Never commit real credentials! Use the `.env.example` file as a template.
+
+### Playwright Integration (`env.config.ts`)
+The `config/env.config.ts` file dynamically loads the appropriate variables based on the active `ENV`. 
+Playwright automatically sets the `baseURL` in `playwright.config.ts` so your test scripts only need to use relative paths (e.g., `page.goto('/login')`).
+
+If you need credentials in your tests, simply import the config manager:
 ```typescript
-export class TestConfig {
-    appUrl = "http://localhost/opencart/upload/"
-    // Valid login credentials
-    email = "pavanol@abc.com"
-    password = "test@123"
-    // Product details for testing
-    productName = "MacBook"
-    productQuantity = "2"
-    totalPrice = "$1,204.00"
-}
+import { getEnvConfig } from './config/env.config';
+const config = getEnvConfig();
+
+// Use config.username, config.password, etc.
 ```
-
-> [!TIP]
-> You can easily switch between local and production environments by commenting/uncommenting the `appUrl` in `test.config.ts`.
-
 ## 📂 Project Structure
 
 This project adopts a well-organized structure to keep tests, page objects, and utilities neatly separated:
@@ -139,12 +140,19 @@ This framework provides multiple reporting options:
 -   **Allure Reports**: 📊 Rich, interactive reports generated via `allure-playwright`.
 -   **Console Reporters**: 💻 `dot` and `list` reporters for real-time feedback in the terminal.
 
-## 🔄 CI/CD Integration
+## 🔄 CI/CD Integration (GitHub Actions & Jenkins)
 
-This project is integrated with GitHub Actions to automate test execution.
+This project supports seamless execution across local and CI environments using the same codebase, securely injecting credentials dynamically.
 
-> [!IMPORTANT]
-> The GitHub Actions workflow (`.github/workflows/playwright.yml`) automatically triggers on every `push` and `pull_request` event. It handles the entire setup and execution process, uploading test results as artifacts for 30 days.
+### GitHub Actions
+The `.github/workflows/playwright.yml` pipeline triggers on push, pull requests, and manual dispatches (where you can select the target environment).
+- **Secrets Management**: It maps GitHub Repository Secrets (e.g., `${{ secrets.QA_PASSWORD }}`) directly into the runner's environment variables. 
+- Playwright automatically consumes these instead of looking for the `.env` file.
+
+### Jenkins Pipeline
+The project includes a declarative `Jenkinsfile` for Jenkins CI.
+- **Environment Selection**: Uses a manual UI dropdown parameter to select the target environment (`dev`, `qa`, `preprod`, `prod`).
+- **Secrets Management**: It pulls credentials natively from the Jenkins Credentials Vault using the `credentials('QA_PASSWORD')` binding syntax, meaning passwords never appear in logs or source control.
 
 --- 
 

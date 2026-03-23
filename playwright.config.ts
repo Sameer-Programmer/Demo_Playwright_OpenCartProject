@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import { getEnvConfig } from './config/env.config';
+
+// Load our environment configuration dynamically
+const envState = getEnvConfig();
+
 export default defineConfig({
   timeout: 30 * 1000, //30000 ms(30 secs)
   testDir: './tests',
@@ -15,6 +20,8 @@ export default defineConfig({
   ],
 
   use: {
+    // Setting baseURL from the dynamically loaded configuration
+    baseURL: envState.baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
