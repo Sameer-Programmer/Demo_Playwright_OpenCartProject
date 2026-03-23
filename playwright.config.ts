@@ -10,9 +10,10 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['allure-playwright'],
-    ['dot'],
-    ['list']
+    // ['dot'],   // <-- This one!
+    // ['list']   // <-- And this one!
   ],
+
   use: {
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

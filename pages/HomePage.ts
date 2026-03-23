@@ -35,6 +35,19 @@ export class HomePage {
             return false
         }
     }
+
+   // click to my account
+   async clickMyAccount(){
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.linkMyAccount.click();
+   }
+
+   // click to login
+   async clickLogin(){
+    await this.page.waitForLoadState('domcontentloaded');
+    await this.linkLogin.click();
+   }
+
     // Click the register Button 
     async registerCreation() {
         await this.linkMyAccount.click();

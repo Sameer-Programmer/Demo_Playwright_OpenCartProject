@@ -31,4 +31,17 @@ Create Folder Structure
 6. Create a folder named 'fixtures' inside 'tests'.
 7. Create a folder named 'pages' inside 'tests'.
 8. Create a folder named 'tests' in the root directory.
+
+
+
+Step 4 
+
+Tags in this App 
+@master @sanity @regression @smoke
+command to run the tests with tags  
+npx playwright test --grep "@master"
+
+
+
+
 */
