@@ -1,6 +1,6 @@
 # 🚀 Demo Playwright OpenCart Project
 
-[![Playwright](https://img.shields.io/badge/Playwright-v1.42.1-brightgreen)](https://playwright.dev/)
+[![Playwright](https://img.shields.io/badge/Playwright-v1.58.2-brightgreen)](https://playwright.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5.0.4-blue)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-v9+-red)](https://www.npmjs.com/)
@@ -14,6 +14,7 @@ This repository showcases a robust Playwright automation framework meticulously 
 - [🚀 Getting Started](#-getting-started)
   - [✅ Prerequisites](#-prerequisites)
   - [🛠️ Installation](#%EF%B8%8F-installation)
+- [⚙️ Configuration](#%EF%B8%8F-configuration)
 - [📂 Project Structure](#-project-structure)
 - [▶️ Running Tests](#%EF%B8%8F-running-tests)
 - [📊 Reporting](#-reporting)
@@ -26,12 +27,12 @@ This framework is packed with powerful features to streamline your test automati
 
 -   **Playwright**: 🌐 A cutting-edge end-to-end testing framework for modern web applications, ensuring reliable and fast test execution.
 -   **TypeScript**: ✍️ Enhances code quality, readability, and maintainability with static typing, catching errors early in the development cycle.
--   **Data-Driven Testing**: 엑셀 Supports reading test data from various sources like CSV and Excel files, powered by `csv-parse` and `xlsx` for flexible test scenarios.
--   **Test Data Generation**: 🎲 Integrates `@faker-js/faker` to generate realistic and dynamic test data on the fly, reducing manual data creation efforts.
--   **Allure Reports**: 📈 Seamless integration with `allure-playwright` for generating rich, interactive, and comprehensive test reports, making test analysis a breeze.
--   **HTML Reports**: 📄 Utilizes Playwright's built-in HTML reporter for quick and easy overviews of test results directly in your browser.
--   **Cross-Browser Testing**: 🌍 Configured to execute tests across major browsers including Chromium, Firefox, and WebKit, ensuring broad compatibility.
--   **GitHub Actions**: 🚀 Automated test execution on every push and pull request, enabling continuous integration and immediate feedback on code changes.
+-   **Centralized Configuration**: ⚙️ Manage application URLs, credentials, and test data in a single `test.config.ts` file for easy maintenance.
+-   **Data-Driven Testing**: 📊 Supports reading test data from various sources like CSV and Excel files, powered by `csv-parse` and `xlsx`.
+-   **Test Data Generation**: 🎲 Integrates `@faker-js/faker` to generate realistic and dynamic test data on the fly.
+-   **Comprehensive Reporting**: 📈 Multi-reporter setup including Allure, HTML, Dot, and List reporters for detailed test analysis.
+-   **Cross-Browser Testing**: 🌍 Configured to execute tests across major browsers including Chromium, Firefox, and WebKit.
+-   **GitHub Actions**: 🚀 Automated test execution on every push and pull request, enabling continuous integration.
 
 ## 🚀 Getting Started
 
@@ -66,6 +67,26 @@ Before you begin, ensure you have the following software installed:
     npx playwright install
     ```
 
+## ⚙️ Configuration
+
+The project uses a centralized configuration file `test.config.ts` to manage environment-specific settings and test data:
+
+```typescript
+export class TestConfig {
+    appUrl = "http://localhost/opencart/upload/"
+    // Valid login credentials
+    email = "pavanol@abc.com"
+    password = "test@123"
+    // Product details for testing
+    productName = "MacBook"
+    productQuantity = "2"
+    totalPrice = "$1,204.00"
+}
+```
+
+> [!TIP]
+> You can easily switch between local and production environments by commenting/uncommenting the `appUrl` in `test.config.ts`.
+
 ## 📂 Project Structure
 
 This project adopts a well-organized structure to keep tests, page objects, and utilities neatly separated:
@@ -73,29 +94,20 @@ This project adopts a well-organized structure to keep tests, page objects, and 
 ```
 Demo_Playwright_OpenCartProject/
 ├── .github/                       # GitHub Actions workflows
-│   └── workflows/
-│       └── playwright.yml         # CI/CD pipeline for Playwright tests
-├── node_modules/                  # Installed Node.js modules
 ├── tests/                         # All test files
-│   ├── example.spec.ts            # Example Playwright test
-│   ├── data/                      # (Optional) Test data files (CSV, Excel)
-│   ├── utils/                     # (Optional) Utility functions and helpers
-│   ├── fixtures/                  # (Optional) Playwright fixtures
-│   └── pages/                     # (Optional) Page Object Model (POM) files
-├── playwright.config.ts           # Playwright test configuration
+│   └── example.spec.ts            # Example Playwright test
+├── playwright.config.ts           # Main Playwright test configuration
+├── test.config.ts                 # Application-specific test configuration
 ├── package.json                   # Project metadata and dependencies
-├── package-lock.json              # Exact dependency versions
+├── Basic.ts                       # Framework design notes and instructions
 └── README.md                      # This README file
 ```
 
-> [!TIP]
-> The `tests/data/`, `tests/utils/`, `tests/fixtures/`, and `tests/pages/` directories are placeholders for a more comprehensive framework. You can expand them as your project grows!
-
 ## ▶️ Running Tests
 
-Tests can be executed using the Playwright Test Runner. The `playwright.config.ts` file is pre-configured to run tests across Chromium, Firefox, and WebKit.
+Tests can be executed using the Playwright Test Runner. The `playwright.config.ts` is configured with a 30-second timeout and runs tests sequentially (`fullyParallel: false`) for better stability.
 
--   **Run all tests across all configured browsers**:
+-   **Run all tests**:
 
     ```bash
     npx playwright test
@@ -107,12 +119,6 @@ Tests can be executed using the Playwright Test Runner. The `playwright.config.t
     npx playwright test --project=chromium
     ```
 
--   **Run a specific test file**:
-
-    ```bash
-    npx playwright test tests/example.spec.ts
-    ```
-
 -   **Run tests in UI mode (interactive)**:
 
     ```bash
@@ -121,26 +127,18 @@ Tests can be executed using the Playwright Test Runner. The `playwright.config.t
 
 ## 📊 Reporting
 
-This framework provides robust reporting options to visualize your test results:
+This framework provides multiple reporting options:
 
--   **HTML Reports**: 📄 Generated by default. After running tests, view the interactive report with:
-
-    ```bash
-    npx playwright show-report
-    ```
-
--   **Allure Reports**: 📊 For more detailed and interactive reports, ensure `allure-playwright` is configured in `playwright.config.ts`. Then, you can generate and serve Allure reports (commands will vary based on your Allure setup).
+-   **HTML Reports**: 📄 View the interactive report with `npx playwright show-report`.
+-   **Allure Reports**: 📊 Rich, interactive reports generated via `allure-playwright`.
+-   **Console Reporters**: 💻 `dot` and `list` reporters for real-time feedback in the terminal.
 
 ## 🔄 CI/CD Integration
 
-This project is integrated with GitHub Actions to automate test execution, ensuring code quality and preventing regressions.
+This project is integrated with GitHub Actions to automate test execution.
 
 > [!IMPORTANT]
-> The GitHub Actions workflow (`.github/workflows/playwright.yml`) automatically triggers on every `push` and `pull_request` event to the `main` and `master` branches. It sets up Node.js, installs dependencies, installs Playwright browsers, executes tests, and uploads the `playwright-report/` as an artifact, which is retained for 30 days.
-
-## 🤝 Contributing
-
-Contributions are welcome! If you have suggestions for improvements, new features, or bug fixes, please feel free to open an issue or submit a pull request. See `CONTRIBUTING.md` (if available) for more details.
+> The GitHub Actions workflow (`.github/workflows/playwright.yml`) automatically triggers on every `push` and `pull_request` event. It handles the entire setup and execution process, uploading test results as artifacts for 30 days.
 
 --- 
 
