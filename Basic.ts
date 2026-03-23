@@ -49,6 +49,29 @@ To Generate the reports : allure generate ./allure-results -o ./allure-report --
 To Open the reports : allure open
 
 
+ * Complete Command Flow
+ * --------------------------------
+ * npm install -D @playwright/test -why this - to install playwright
+ * npm install -D allure-playwright -why this - to generate allure reports
+ * npm install -g allure-commandline -why this - to generate allure reports
+ *
+ * npx playwright test -why this - to run the tests
+ *
+ * allure generate ./allure-results -o ./allure-report --clean -why this - to generate allure reports
+ *
+ * allure open ./allure-report -why this - to open the allure reports
+ 
+//Step 6 
 
+in package.json 
+under scripts
+"scripts": {
+"test:master": "playwright test --grep @master",
+"test:sanity": "playwright test --grep @sanity",
+"test:regression": "playwright test --grep @regression",
+"test:datadriven": "playwright test --grep @datadriven",
+"test:master:headed": "playwright test --grep @master --headed",
+"test:sanity:debug": "playwright test --grep @sanity --debug"
+}
 
 */
