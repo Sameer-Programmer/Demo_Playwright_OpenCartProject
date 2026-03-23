@@ -18,6 +18,10 @@ export class RandomDataUtil {
         return faker.phone.number();
     }
 
+     static getRandomPassword() {
+        return faker.internet.password();
+    }
+
     static getRandomAddress() {
         return faker.location.streetAddress()
     }
