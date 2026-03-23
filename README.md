@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/badge/npm-v9+-red)](https://www.npmjs.com/)
 [![GitHub Actions](https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject/actions/workflows/playwright.yml/badge.svg)](https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject/actions/workflows/playwright.yml)
 
-This repository showcases a robust Playwright automation framework meticulously crafted for testing an OpenCart e-commerce application. It's designed with best practices in mind, leveraging TypeScript for enhanced code quality and maintainability, ensuring a scalable and efficient test suite. 🧪
+This repository showcases a robust Playwright automation framework meticulously crafted for testing an OpenCart e-commerce application. It's designed with best practices in mind, leveraging **TypeScript** for enhanced code quality and the **Page Object Model (POM)** for better maintainability and scalability. 🧪
 
 ## 📚 Table of Contents
 
@@ -27,9 +27,10 @@ This framework is packed with powerful features to streamline your test automati
 
 -   **Playwright**: 🌐 A cutting-edge end-to-end testing framework for modern web applications, ensuring reliable and fast test execution.
 -   **TypeScript**: ✍️ Enhances code quality, readability, and maintainability with static typing, catching errors early in the development cycle.
+-   **Page Object Model (POM)**: 🏗️ Implements POM to separate page-specific logic from test scripts, making the suite easier to maintain.
 -   **Centralized Configuration**: ⚙️ Manage application URLs, credentials, and test data in a single `test.config.ts` file for easy maintenance.
--   **Data-Driven Testing**: 📊 Supports reading test data from various sources like CSV and Excel files, powered by `csv-parse` and `xlsx`.
--   **Test Data Generation**: 🎲 Integrates `@faker-js/faker` to generate realistic and dynamic test data on the fly.
+-   **Data-Driven Testing**: 📊 Supports reading test data from various sources like **JSON** and **CSV** files, powered by custom utilities.
+-   **Random Data Generation**: 🎲 Integrates `@faker-js/faker` via `RandomDataUtil` to generate realistic and dynamic test data (names, emails, addresses, etc.) on the fly.
 -   **Comprehensive Reporting**: 📈 Multi-reporter setup including Allure, HTML, Dot, and List reporters for detailed test analysis.
 -   **Cross-Browser Testing**: 🌍 Configured to execute tests across major browsers including Chromium, Firefox, and WebKit.
 -   **GitHub Actions**: 🚀 Automated test execution on every push and pull request, enabling continuous integration.
@@ -93,7 +94,12 @@ This project adopts a well-organized structure to keep tests, page objects, and 
 
 ```
 Demo_Playwright_OpenCartProject/
-├── .github/                       # GitHub Actions workflows
+├── pages/                         # Page Object Model (POM) classes
+│   ├── HomePage.ts                # Locators and actions for the Home page
+│   └── RegistrationPage.ts        # Locators and actions for the Registration page
+├── utils/                         # Utility classes and helper functions
+│   ├── RandomDataGenerator.ts     # Faker-based random data generation
+│   └── dataPovider.ts             # JSON and CSV data reading utilities
 ├── tests/                         # All test files
 │   └── example.spec.ts            # Example Playwright test
 ├── playwright.config.ts           # Main Playwright test configuration
