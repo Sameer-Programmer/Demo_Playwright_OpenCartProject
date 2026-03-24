@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { HomePage } from "../pages/HomePage";
 import { TestConfig } from "../test.config";
 import { MyAccountPage } from "../pages/MyAccountPage";
-import { LogoutPage } from "../pages/Logoutpage";
+import { LogoutPage } from "../pages/LogoutPage";
 
 // run this below test.describe block in serial mode
 test.describe.configure({ mode: 'serial' });

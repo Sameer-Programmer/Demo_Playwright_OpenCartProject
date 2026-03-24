@@ -8,8 +8,7 @@ export class HomePage {
     private readonly linkMyAccount: Locator;
     private readonly register: Locator;
     private readonly linkLogin: Locator;
-    private readonly txtSearch: Locator;
-    private readonly buttonSearch: Locator;
+   
 
     //constructer
 
@@ -18,8 +17,7 @@ export class HomePage {
         this.register = page.locator("//a[normalize-space()='Register']");
         this.linkMyAccount = page.locator("//span[normalize-space()='My Account']");
         this.linkLogin = page.locator("//a[normalize-space()='Login']");
-        this.txtSearch = page.locator('input[placeholder="Search"]');
-        this.buttonSearch = page.locator(".fa.fa-search");
+        
     }
 
 
@@ -61,10 +59,7 @@ export class HomePage {
     }
 
     // Search the Product 
-    async searchProduct(productName: string) {
-        await this.txtSearch.fill(productName);
-        await this.buttonSearch.click();
-    }
+ 
 
 
     async linkMyAccountClick(){
