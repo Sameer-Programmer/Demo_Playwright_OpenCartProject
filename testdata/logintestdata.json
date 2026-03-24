@@ -1,0 +1,14 @@
+[
+    {
+        "testName": "Valid login",
+        "email": "Erika_Muller@hotmail.com",
+        "Password": "akELz_DTAGDU5ay",
+        "expected": "success"
+    },
+    {
+        "testName": "InValid login",
+        "email": "testErika_Muller@hotmail.com",
+        "Password": "akELz_DTAGDU5ay",
+        "expected": "failure"
+    }
+]

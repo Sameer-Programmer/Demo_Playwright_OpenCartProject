@@ -1,0 +1,3 @@
+testName,email,Password,expected
+Valid login,Erika_Muller@hotmail.com,akELz_DTAGDU5ay,success
+InValid login,testErika_Muller@hotmail.com,akELz_DTAGDU5ay,failure
