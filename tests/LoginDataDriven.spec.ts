@@ -32,10 +32,10 @@ for (const data of jsonTestData) {
         await homePage.clickLogin();
         await loginpage.loginOperation(data.email, data.Password)
         if (data.expected === "success") {
-            await expect(accountPage.myAccountHeading).toBeVisible()
+            expect(await accountPage.accountHeadingVisible()).toBeTruthy()
         } else {
-            await expect(accountPage.myAccountHeading).toBeHidden()
-            expect(await loginpage.warningMessageVisible()).toBeTruthy()
+            expect(await accountPage.accountHeadingVisible()).toBeFalsy()
+            await expect(loginpage.warningMessage).toBeVisible()
         }
 
     });
@@ -59,10 +59,10 @@ for (const data of csvTestData) {
         await homePage.clickLogin();
         await loginpage.loginOperation(data.email, data.Password)
         if (data.expected === "success") {
-            await expect(accountPage.myAccountHeading).toBeVisible()
+            expect(await accountPage.accountHeadingVisible()).toBeTruthy()
         } else {
-            await expect(accountPage.myAccountHeading).toBeHidden()
-            expect(await loginpage.warningMessageVisible()).toBeTruthy()
+            expect(await accountPage.accountHeadingVisible()).toBeFalsy()
+            await expect(loginpage.warningMessage).toBeVisible()
         }
 
     });

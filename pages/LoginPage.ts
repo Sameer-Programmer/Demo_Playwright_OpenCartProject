@@ -11,7 +11,7 @@ export class LoginPage {
     private readonly myAccountLink: Locator;
     private readonly loginLink: Locator;
     private readonly logoutLink: Locator;
-    private readonly warningMessage:Locator;
+    readonly warningMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -24,7 +24,7 @@ export class LoginPage {
         this.myAccountLink = page.locator('span[normalize-space()="My Account"]');
         this.loginLink = page.locator('a:has-text("Login")');
         this.logoutLink = page.locator('a:has-text("Logout")');
-        this.warningMessage = page.getByText('Warning: No match for E-Mail Address and/or Password.', { exact: true })
+        this.warningMessage = page.locator(".alert.alert-danger.alert-dismissible")
     }
 
     async enterEmailAddress(email: string): Promise<void> {
@@ -99,5 +99,5 @@ export class LoginPage {
 
     async warningMessageHidden(): Promise<boolean> {
         return await this.warningMessage.isHidden();
-    }   
+    }
 }

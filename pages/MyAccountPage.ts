@@ -1,13 +1,17 @@
 import { Page, Locator } from '@playwright/test';
+import { HomePage } from './HomePage'
+
+let homepage: HomePage
+
 
 export class MyAccountPage {
-    readonly page: Page;
-    readonly myAccountHeading: Locator;
-    readonly editAccountLink: Locator;
-    readonly changePasswordLink: Locator;
-    readonly modifyAddressBookLink: Locator;
-    readonly modifyWishListLink: Locator;
-    readonly orderHistoryLink: Locator;
+    private readonly page: Page;
+    private readonly myAccountHeading: Locator;
+    private readonly editAccountLink: Locator;
+    private readonly changePasswordLink: Locator;
+    private readonly modifyAddressBookLink: Locator;
+    private readonly modifyWishListLink: Locator;
+    private readonly orderHistoryLink: Locator;
     readonly downloadsLink: Locator;
     readonly rewardPointsLink: Locator;
     readonly returnsLink: Locator;
@@ -31,7 +35,7 @@ export class MyAccountPage {
         this.transactionsLink = page.locator('//a[text()="Your Transactions"]');
         this.newsletterLink = page.locator('//a[text()="Subscribe / unsubscribe to newsletter"]');
         this.recurringPaymentsLink = page.locator('//a[text()="Recurring payments"]');
-        this.logoutLink = page.locator('//aside[@id="column-right"]//a[text()="Logout"]');
+        this.logoutLink = page.locator('a').filter({ hasText: 'Logout' }).first()
         this.continueButton = page.locator('//a[text()="Continue"]');
     }
 
@@ -87,5 +91,18 @@ export class MyAccountPage {
         await this.continueButton.click();
     }
 
-   
+
+    //accountheadingvisible 
+    async accountHeadingVisible(): Promise<boolean> {
+        return await this.myAccountHeading.isVisible();
+    }
+
+    async performLogout(): Promise<void> {
+        homepage = new HomePage(this.page);
+        await homepage.clickMyAccount();
+        await this.page.hover('//a[normalize-space()="Logout"]')
+        await this.clickLogout();
+    }
+
+
 }

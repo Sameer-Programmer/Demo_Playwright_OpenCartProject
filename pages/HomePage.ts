@@ -67,5 +67,10 @@ export class HomePage {
     }
 
 
+    async linkMyAccountClick(){
+        await this.linkMyAccount.click();
+    }
+
+
 
 }   
