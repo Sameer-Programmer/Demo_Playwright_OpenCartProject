@@ -41,5 +41,6 @@ test.describe("Test 1", () => {
         expect(await logoutPage.AccountLogoutHeaderVisible()).toBeTruthy();
         await logoutPage.clickContinueButton();
         expect(await logoutPage.AccountLogoutHeaderVisible()).toBeFalsy();
+        expect(await homePage.isHomePageTitleExists()).toBeTruthy();
     });
 });

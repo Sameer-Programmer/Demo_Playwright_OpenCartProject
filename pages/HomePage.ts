@@ -27,7 +27,7 @@ export class HomePage {
 
     // actions
 
-    async isHomePageTitleExists() {
+    async isHomePageTitleExists() : Promise<boolean> {
         const title: string = await this.page.title();
         if (title) {
             return true

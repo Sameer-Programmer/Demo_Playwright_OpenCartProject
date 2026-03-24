@@ -9,7 +9,7 @@ export class TestConfig {
     password = "akELz_DTAGDU5ay"
 
     //product details
-    productName = "MacBook"
+    productName = "iPhone"
     productQuantity = "2"
     totalPrice = "$1,204.00"
 }

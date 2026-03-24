@@ -77,4 +77,11 @@ under scripts
 
 Now to run from the package.json 
 example : npm run test:master --it will execute this command : npx playwright test --grep @master
+
+
+
+// step 7
+
+to run the testcases in serial mode 
+test.describe.configure({ mode: 'serial' });
 */

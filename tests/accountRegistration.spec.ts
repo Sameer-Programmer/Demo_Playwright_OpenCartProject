@@ -1,4 +1,6 @@
 /* 
+
+👉 “Framework means a predefined structure that helps us develop something in a consistent and efficient way.”
 Test Case : Account Registration 
 Steps :
 1. Navigate to the OpenCart website.
