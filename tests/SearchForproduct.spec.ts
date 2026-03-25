@@ -9,14 +9,13 @@ test.describe("Search and Add to Cart Flow", () => {
 
 
   test("Search and add product to cart @smoke @regression", async ({ searchPage, config, page }) => {
-   
+
     await test.step('Search for product', async () => {
       await searchPage.searchBoxClick();
       await searchPage.searchBoxFill(config.productName);
       await searchPage.searchButtonClick();
       await expect(searchPage.prouctNameLocator).toBeVisible();
     });
-
     await test.step('Add the product to Cart', async () => {
       await searchPage.selectProduct();
       //wait for page to load 
