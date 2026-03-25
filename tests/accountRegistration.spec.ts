@@ -12,7 +12,7 @@ Steps :
 
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import { RegisterPage } from '../pages/RegistrationPage';
+import { RegistrationPage } from '../pages/RegistrationPage';
 import { RandomDataUtil } from '../utils/RandomDataGenerator';
 import { TestConfig } from '../test.config';
 
@@ -22,7 +22,7 @@ test("UserRegistration_001 @master @sanity @regression @smoke", async ({ page })
     const config = new TestConfig();
     await page.goto(config.appUrl)  // Navigate to URl 
     const homePage = new HomePage(page);
-    const registerPage = new RegisterPage(page);
+    const registrationPage = new RegistrationPage(page);
 
 
     await homePage.registerCreation();
@@ -36,13 +36,13 @@ test("UserRegistration_001 @master @sanity @regression @smoke", async ({ page })
 
     //Fill the register Details 
 
-    await registerPage.register(firstName, lastName, email, telephone, password);
+    await registrationPage.performRegistration(firstName, lastName, email, telephone, password);
     console.log(`First Name : ${firstName}`)
     console.log(`Last Name : ${lastName}`)
     console.log(`Email : ${email}`)
     console.log(`Telephone : ${telephone}`)
     console.log(`Password : ${password}`)
-    await expect(registerPage.msgConfirmation).toBeVisible();
+    await expect(registrationPage.msgConfirmation).toBeVisible();
 
 
 })

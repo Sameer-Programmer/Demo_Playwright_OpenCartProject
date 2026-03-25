@@ -11,8 +11,9 @@ export class TestConfig {
     //product details
     productName = "iPhone"
     productQuantity = "2"
-    totalPrice = "$1,204.00"
+    totalPrice = "$246.40"
 }
+
 
 /* 
 First Name : Margarita

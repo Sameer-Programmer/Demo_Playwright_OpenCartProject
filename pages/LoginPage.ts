@@ -21,7 +21,7 @@ export class LoginPage {
         this.forgottenPasswordLink = page.locator('a:has-text("Forgotten Password")');
         this.continueButton = page.locator('a:has-text("Continue")');
         this.registerLink = page.locator('a[href*="route=account/register"]');
-        this.myAccountLink = page.locator('span[normalize-space()="My Account"]');
+        this.myAccountLink = page.locator('span:has-text("My Account")')
         this.loginLink = page.locator('a:has-text("Login")');
         this.logoutLink = page.locator('a:has-text("Logout")');
         this.warningMessage = page.locator(".alert.alert-danger.alert-dismissible")
@@ -99,5 +99,16 @@ export class LoginPage {
 
     async warningMessageHidden(): Promise<boolean> {
         return await this.warningMessage.isHidden();
+    }
+
+
+
+    //Login with same account
+    async loginWithSameAccount(email: string, password: string): Promise<void> {
+        await this.clickMyAccountLink();
+        await this.clickLoginLink();
+        await this.enterEmailAddress(email);
+        await this.enterPassword(password);
+        await this.clickLoginButton();
     }
 }

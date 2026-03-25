@@ -33,8 +33,8 @@ export class SearchPage {
         this.buttonAddToCart = page.locator('div', {
             has: page.locator('a', { hasText: config.productName })
         }).getByRole('button', { name: 'Add to Cart' });  // is this kind not requireed ${config.productName} here ? 
-        this.successMessage = page.locator("//div[contains(@class,'alert-success') and contains(.,'Success')]");
-    }
+        this.successMessage = page.locator('.alert-success');
+        }
 
     async searchProduct(productName: string) {
         await this.txtSearch.fill(productName);

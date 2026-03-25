@@ -1,6 +1,7 @@
 import { Page, Locator } from '@playwright/test';
+import { UserData } from '../types/UserData';
 
-export class RegisterPage {
+export class RegistrationPage {
     readonly page: Page;
     readonly firstNameInput: Locator;
     readonly lastNameInput: Locator;
@@ -89,7 +90,7 @@ export class RegisterPage {
         return await this.firstNameInput.inputValue();
     }
 
-    async register(
+    async performRegistration(
         firstName: string,
         lastName: string,
         email: string,
@@ -113,4 +114,22 @@ export class RegisterPage {
         await this.checkPrivacyPolicy();
         await this.clickContinue();
     }
+
+
+
+    async fillRegistrationForm(userData: UserData): Promise<void>   {
+        await this.enterFirstName(userData.firstName);
+        await this.enterLastName(userData.lastName);
+        await this.enterEmail(userData.email);
+        await this.enterTelephone(userData.telephone);
+        await this.enterPassword(userData.password);
+        await this.enterPasswordConfirm(userData.password);
+        if (userData.subscribe) {
+            await this.selectSubscribeYes();
+        } else {
+            await this.selectSubscribeNo();
+        }
+        await this.checkPrivacyPolicy();
+        await this.clickContinue();
+    } 
 }
