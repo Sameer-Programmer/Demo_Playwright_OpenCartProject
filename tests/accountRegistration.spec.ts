@@ -10,42 +10,29 @@ Steps :
 5. Verify that the account is created successfully.
 */
 
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { RegistrationPage } from '../pages/RegistrationPage';
-import { RandomDataUtil } from '../utils/RandomDataGenerator';
-import { TestConfig } from '../test.config';
-
-test("UserRegistration_001 @master @sanity @regression @smoke", async ({ page }) => {
-    test.setTimeout(60000)
-
-    const config = new TestConfig();
-    await page.goto(config.appUrl)  // Navigate to URl 
-    const homePage = new HomePage(page);
-    const registrationPage = new RegistrationPage(page);
+import { test, expect } from './Fixtures/baseTest';
 
 
+test("UserRegistration_001 @master @sanity @regression @smoke", async ({ page,
+    homePage,
+    registrationPage,
+    testDataFactory,
+    env }) => {
+
+    const userData = testDataFactory.getRegistrationData(); // ✅ Added
+
+    await page.goto(env.baseURL);
+    console.log(env.baseURL)
     await homePage.registerCreation();
+    //PerformRegistration 
+    await registrationPage.fillRegistrationForm(userData);
+    //assertion 
+    expect(await registrationPage.isAccountCreated()).toBe(true);
+
+});
 
 
-    const firstName = RandomDataUtil.getRandomFirstname();
-    const lastName = RandomDataUtil.getRandomLastname();
-    const email = RandomDataUtil.getRandomEmail();
-    const telephone = RandomDataUtil.getRandomTelephone();
-    const password = RandomDataUtil.getRandomPassword();
 
-    //Fill the register Details 
-
-    await registrationPage.performRegistration(firstName, lastName, email, telephone, password);
-    console.log(`First Name : ${firstName}`)
-    console.log(`Last Name : ${lastName}`)
-    console.log(`Email : ${email}`)
-    console.log(`Telephone : ${telephone}`)
-    console.log(`Password : ${password}`)
-    await expect(registrationPage.msgConfirmation).toBeVisible();
-
-
-})
 
 
 

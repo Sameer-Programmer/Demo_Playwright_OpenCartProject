@@ -15,7 +15,7 @@ export class RegistrationPage {
     readonly continueButton: Locator;
     readonly loginLink: Locator;
     readonly privacyPolicyLink: Locator;
-    readonly msgConfirmation: Locator;
+    private readonly msgConfirmation: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -32,6 +32,13 @@ export class RegistrationPage {
         this.loginLink = page.locator('a:has-text("login page")');
         this.privacyPolicyLink = page.locator('a:has-text("Privacy Policy")');
         this.msgConfirmation = page.locator('h1:has-text("Your Account Has Been Created!")');
+    }
+
+
+
+    async isAccountCreated(): Promise<boolean> {
+        console.log(await this.msgConfirmation.textContent());
+        return await this.msgConfirmation.isVisible();
     }
 
     async enterFirstName(firstName: string): Promise<void> {
@@ -117,7 +124,7 @@ export class RegistrationPage {
 
 
 
-    async fillRegistrationForm(userData: UserData): Promise<void>   {
+    async fillRegistrationForm(userData: UserData): Promise<void> {
         await this.enterFirstName(userData.firstName);
         await this.enterLastName(userData.lastName);
         await this.enterEmail(userData.email);
@@ -131,5 +138,5 @@ export class RegistrationPage {
         }
         await this.checkPrivacyPolicy();
         await this.clickContinue();
-    } 
+    }
 }

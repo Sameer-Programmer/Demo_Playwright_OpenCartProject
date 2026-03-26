@@ -2,7 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 import { getEnvConfig } from './config/env.config';
 
 // Load our environment configuration dynamically
-const envState = getEnvConfig();
+const env = getEnvConfig();
+
 
 export default defineConfig({
   timeout: 30 * 1000, //30000 ms(30 secs)
@@ -21,11 +22,11 @@ export default defineConfig({
 
   use: {
     // Setting baseURL from the dynamically loaded configuration
-    baseURL: envState.baseURL,
+    baseURL: env.baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    headless: true,
+    headless: false,
     viewport: { width: 1280, height: 720 }, // Set default viewport size for consistency
     ignoreHTTPSErrors: true, // Ignore SSL errors if necessary
     permissions: ['geolocation'], // Set necessary permissions for geolocation-based tests

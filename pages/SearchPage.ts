@@ -1,21 +1,10 @@
-import { test, expect, Locator, Page } from "@playwright/test";
-import { HomePage } from "./HomePage";
-import { TestConfig } from "../test.config";
-
-
-let homepage: HomePage
-let config = new TestConfig()
-
-
+import { Locator, Page } from "@playwright/test";
 
 export class SearchPage {
     private readonly page: Page;
-    readonly prouctNameLocator: Locator
     private readonly txtSearch: Locator;
     private readonly buttonSearch: Locator;
-    private readonly buttonAddToCart: Locator;
-    private readonly selectproduct: Locator;
-    private readonly quantityFieldfield:Locator
+    private readonly quantityFieldfield: Locator
     private readonly addToCartButton: Locator;
     readonly successMessage: Locator;
 
@@ -23,18 +12,25 @@ export class SearchPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.prouctNameLocator = page.locator(`//div[@class="caption"]//a[normalize-space()='${config.productName}']`)
         this.txtSearch = page.locator('input[placeholder="Search"]');
         this.buttonSearch = page.locator(".fa.fa-search");
-        this.selectproduct = page.getByRole('link', { name: `${config.productName}` }).first();
-        this.quantityFieldfield=page.locator("#input-quantity"); 
-        this.addToCartButton = page.locator(`(//button[@id='button-cart'])[1]`); 
-
-        this.buttonAddToCart = page.locator('div', {
-            has: page.locator('a', { hasText: config.productName })
-        }).getByRole('button', { name: 'Add to Cart' });  // is this kind not requireed ${config.productName} here ? 
+        this.quantityFieldfield = page.locator("#input-quantity");
+        this.addToCartButton = page.locator(`(//button[@id='button-cart'])[1]`);
         this.successMessage = page.locator('.alert-success');
-        }
+    }
+
+    //dynamic Locators 
+
+    getProductName(product: string) {
+        return this.page.getByRole('link', { name: `${product}` }).first();
+    }
+
+    getAddToCartButton(product: string) {
+        return this.page.locator('div', {
+            has: this.page.locator('a', { hasText: product })
+        }).getByRole('button', { name: 'Add to Cart' });
+    }
+
 
     async searchProduct(productName: string) {
         await this.txtSearch.fill(productName);
@@ -54,9 +50,7 @@ export class SearchPage {
         await this.buttonSearch.click();
     }
 
-    async selectProduct() {
-        await this.selectproduct.click();
-    }
+
 
     async updateQuantity(quantity: string) {
         await this.quantityFieldfield.clear();
@@ -64,9 +58,9 @@ export class SearchPage {
     }
 
 
-    async addToCartClick() {
-        await this.buttonAddToCart.click();
-    }
+    // async addToCartClick() {
+    //     await this.buttonAddToCart.click();
+    // }
 
     async addToCartButton2() {
         await this.addToCartButton.click();

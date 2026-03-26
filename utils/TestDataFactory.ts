@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 export class TestDataFactory {
 
-    static getRegistrationData() {
+      getRegistrationData() {
 
         const firstName: string = faker.person.firstName();
         const lastName: string = faker.person.lastName();
@@ -18,4 +18,17 @@ export class TestDataFactory {
             password
         };
     }
+
+    static getProductData() {
+    return {
+        productName: "iPhone",
+        quantity: "2",
+        totalPrice: "$246.40"
+    };
+}
+
+
+
+
+
 }

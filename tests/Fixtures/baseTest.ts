@@ -6,32 +6,26 @@ import { MyAccountPage } from "../../pages/MyAccountPage";
 import { LogoutPage } from "../../pages/LogoutPage";
 import { SearchPage } from "../../pages/SearchPage";
 import { CartPage } from "../../pages/CartPage";
-import { TestConfig } from "../../test.config";
 import { TestDataFactory } from "../../utils/TestDataFactory";
+import { EnvConfig } from "../../types/env.types";
+import { getEnvConfig } from "../../config/env.config";
+
+type Env = EnvConfig;
+
 
 type MyFixtures = {
-  page: Page;
   registrationPage: RegistrationPage;
-  homePage: HomePage; 
+  homePage: HomePage;
   loginPage: LoginPage;
   accountPage: MyAccountPage;
   logoutPage: LogoutPage;
   searchPage: SearchPage;
-  config: TestConfig;
   cartPage: CartPage;
   testDataFactory: TestDataFactory;
+  env: Env;
 };
 
-const config = new TestConfig();
-
 export const test = base.extend<MyFixtures>({
-  
-  page: async ({ browser }, use) => {
-    const page = await browser.newPage();
-    await page.goto(config.appUrl);
-    await use(page);
-    await page.close();
-  },
 
   registrationPage: async ({ page }, use) => {
     await use(new RegistrationPage(page));
@@ -57,17 +51,23 @@ export const test = base.extend<MyFixtures>({
     await use(new SearchPage(page));
   },
 
-  config: async ({}, use) => {
-    await use(config);
-  },
-
-  testDataFactory: async ({}, use) => {
-    await use(new TestDataFactory());
-  },
-
   cartPage: async ({ page }, use) => {
     await use(new CartPage(page));
   },
+
+  testDataFactory: async ({ }, use) => {
+    await use(new TestDataFactory());
+  },
+
+  env: async ({}, use) => {
+    const config = getEnvConfig();
+    await use(config);
+  },
+
 });
 
+  
+
 export { expect } from "@playwright/test";
+
+//Filename tests\Fixtures\baseTest.ts

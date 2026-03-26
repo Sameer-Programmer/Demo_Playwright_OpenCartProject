@@ -1,54 +1,31 @@
 import { Page, Locator } from '@playwright/test';
-import { TestConfig } from '../test.config';
-const config = new TestConfig()
 
 export class CartPage {
     readonly page: Page;
     readonly shoppingCart: Locator;
     readonly viewCart: Locator;
-    readonly productname: Locator;
-    readonly TotalPrice: Locator;
-    readonly CartPageTitle: Locator;
-
+    readonly cartPageTitle: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.shoppingCart = page.locator("#cart button").first();
-        this.viewCart = page.locator(`strong:has-text("View Cart")`)
-        this.productname = page.getByRole('link', { name: config.productName }).last();
-        this.TotalPrice = page.locator('td').filter({ hasText: config.totalPrice }).first();
-        this.CartPageTitle = page.locator("//h1[contains(text(),'Shopping Cart')]");
+        this.viewCart = page.getByText("View Cart");
+        this.cartPageTitle = page.getByRole('heading', { name: "Shopping Cart" });
     }
 
-
-    async shoppingCartClick() {
+    // 🔹 Navigate to cart page
+    async navigateToCartPage() {
         await this.shoppingCart.click();
-    }
-
-    //view Cart
-    async viewCartClick() {
         await this.viewCart.click();
     }
 
-    //product name
-    async productNameVisible() {
-        return this.productname.isVisible();
+    // 🔹 Dynamic locator for product name
+    getProductByName(productName: string): Locator {
+        return this.page.getByRole('link', { name: productName }).first();
     }
 
-    //total price
-    async totalPriceVisible() {
-        return this.TotalPrice.isVisible();
+    // 🔹 Dynamic locator for total price
+    getTotalPrice(price: string): Locator {
+        return this.page.locator('td').filter({ hasText: price }).last();
     }
-
-
-
-    async NavigateToCartPage() {
-        await this.shoppingCart.click();
-        await this.viewCartClick();
-        await this.productNameVisible();
-        await this.totalPriceVisible();
-    }
-
 }
-
-

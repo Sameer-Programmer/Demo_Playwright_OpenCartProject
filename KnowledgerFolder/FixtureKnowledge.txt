@@ -1,0 +1,6 @@
+
+
+🔥 Golden Rule (Lock this 🔒)
+
+👉 If using fixture → ❌ NO static
+👉 If using static → ❌ NO fixture

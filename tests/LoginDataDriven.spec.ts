@@ -2,7 +2,7 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pages/LoginPage";
 import { HomePage } from "../pages/HomePage";
-import { TestConfig } from "../test.config";
+import { TestConfig } from "../testConfig"; //TestConfig.ts
 import { MyAccountPage } from "../pages/MyAccountPage";
 import { DataProvider } from "../utils/dataPovider";
 

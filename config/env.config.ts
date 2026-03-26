@@ -1,34 +1,56 @@
-import * as dotenv from 'dotenv';
-import * as path from 'path';
+import dotenv from "dotenv";
+import type { EnvConfig } from "../types/env.types";
 
-// Read from default ".env" file.
-// In CI environments where GitHub/Jenkins sets environment variables directly,
-// the values from process.env take precedence over those in the file.
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-dotenv.config();
+dotenv.config(); //Hey dotenv, open the .env file and load all values into my app”
 
-export const getEnvConfig = () => {
-    // Determine the environment, fallback to 'qa' if not provided
-    const environment = process.env.ENV?.toLowerCase() || 'qa';
 
-    // Build the dynamic keys based on the environment prefix (e.g. QA_USERNAME)
-    const envPrefix = environment.toUpperCase();
 
-    // Fetch the correct set of variables
-    // In local execution, this pulls from the .env file.
-    // In CI (Jenkins/GitHub Actions), this pulls from the injected agent secrets.
-    const config = {
-        environment,
-        baseURL: process.env[`${envPrefix}_URL`],
-        username: process.env[`${envPrefix}_USERNAME`],
-        password: process.env[`${envPrefix}_PASSWORD`],
-    };
+export function getEnvConfig(): EnvConfig {
+  const env = process.env.ENV?.toLowerCase() 
 
-    // Ensure our config actually mapped to values (helpful for debugging configuration failures)
-    if (!config.baseURL || !config.username || !config.password) {
-        throw new Error(`\n⚠️ Missing credentials for environment: ${environment.toUpperCase()}!
-         Please ensure ${envPrefix}_URL, ${envPrefix}_USERNAME, and ${envPrefix}_PASSWORD are set.\n`);
+    switch (env) {
+        case "dev":
+            return {
+                baseURL: process.env.DEV_URL!,
+                username: process.env.DEV_USERNAME!,
+                password: process.env.DEV_PASSWORD!,
+            };
+
+        case "qa":
+            return {
+                baseURL: process.env.QA_URL!,
+                username: process.env.QA_USERNAME!,
+                password: process.env.QA_PASSWORD!,
+            };
+
+        case "preprod":
+            return {
+                baseURL: process.env.PREPROD_URL!,
+                username: process.env.PREPROD_USERNAME!,
+                password: process.env.PREPROD_PASSWORD!,
+            };
+
+        case "prod":
+            return {
+                baseURL: process.env.PROD_URL!,
+                username: process.env.PROD_USERNAME!,
+                password: process.env.PROD_PASSWORD!,
+            };
+
+        default:
+            throw new Error(`Invalid ENV value: ${env}`);
     }
+}
 
-    return config;
-};
+
+/* 
+| Real Life           | Code                |
+| ------------------- | ------------------- |
+| Closed lunch box 🍱 | `.env` file         |
+| Opening lunch box   | `dotenv.config()`   |
+| Eating food 😋      | `process.env.VALUE` |
+
+dotenv.config() =
+“Load all environment variables from .env file so I can use them in code”
+FileName - config\env.config.ts
+*/

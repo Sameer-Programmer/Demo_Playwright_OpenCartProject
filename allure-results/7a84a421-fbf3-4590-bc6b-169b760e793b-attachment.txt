@@ -1,0 +1,9 @@
+https://tutorialsninja.com/demo
+user1774511776960@test.com
+T1VHHYGebB
+Registration Successful
+Logout Successful
+Login Successful
+Product Searched Successfully
+Product Added to Cart Successfully
+Navigated to Cart Page Successfully

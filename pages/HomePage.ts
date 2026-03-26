@@ -8,16 +8,16 @@ export class HomePage {
     private readonly linkMyAccount: Locator;
     private readonly register: Locator;
     private readonly linkLogin: Locator;
-   
+
 
     //constructer
 
     constructor(page: Page) {
         this.page = page;
         this.register = page.locator("//a[normalize-space()='Register']");
-        this.linkMyAccount = page.locator("//span[normalize-space()='My Account']");
+        this.linkMyAccount = page.locator('span:has-text("My Account")')
         this.linkLogin = page.locator("//a[normalize-space()='Login']");
-        
+
     }
 
 
@@ -25,7 +25,7 @@ export class HomePage {
 
     // actions
 
-    async isHomePageTitleExists() : Promise<boolean> {
+    async isHomePageTitleExists(): Promise<boolean> {
         const title: string = await this.page.title();
         if (title) {
             return true
@@ -34,17 +34,17 @@ export class HomePage {
         }
     }
 
-   // click to my account
-   async clickMyAccount(){
-    await this.page.waitForLoadState('domcontentloaded');
-    await this.linkMyAccount.click();
-   }
+    // click to my account
+    async clickMyAccount() {
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.linkMyAccount.click();
+    }
 
-   // click to login
-   async clickLogin(){
-    await this.page.waitForLoadState('domcontentloaded');
-    await this.linkLogin.click();
-   }
+    // click to login
+    async clickLogin() {
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.linkLogin.click();
+    }
 
     // Click the register Button 
     async registerCreation() {
@@ -59,10 +59,10 @@ export class HomePage {
     }
 
     // Search the Product 
- 
 
 
-    async linkMyAccountClick(){
+
+    async linkMyAccountClick() {
         await this.linkMyAccount.click();
     }
 

@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
-import { HomePage } from './HomePage'
 
-let homepage: HomePage
+
+
 
 
 export class MyAccountPage {
@@ -97,12 +97,7 @@ export class MyAccountPage {
         return await this.myAccountHeading.isVisible();
     }
 
-    async performLogout(): Promise<void> {
-        homepage = new HomePage(this.page);
-        await homepage.clickMyAccount();
-        await this.page.hover('//a[normalize-space()="Logout"]')
-        await this.clickLogout();
-    }
+
 
 
 }

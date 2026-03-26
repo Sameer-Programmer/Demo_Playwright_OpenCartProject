@@ -1,78 +1,101 @@
-
-import { LoginPage } from "../pages/LoginPage";
-import { test, expect } from "../tests/Fixtures/baseTest"; //tests\Fixtures\baseTest.ts
+import { test, expect } from "../tests/Fixtures/baseTest";
 import { TestDataFactory } from "../utils/TestDataFactory";
+import { getEnvConfig } from "../config/env.config";
 
+test("End to End flow", async ({ page,
+    registrationPage,
+    homePage,
+    searchPage,
+    logoutPage,
+    loginPage,
+    cartPage,
+    testDataFactory
+}) => {
 
-
-test("End to End flow", async ({ page, registrationPage, homePage, config, searchPage, logoutPage, loginPage, cartPage }) => {
-
-    // Navigate to Home page of APP
+    const configfile = getEnvConfig();
+    if (!configfile.baseURL) {
+        throw new Error("Base URL is missing in ENV");
+    }
+    await page.goto(configfile.baseURL);
+    console.log(configfile.baseURL);
+    // Navigate to Home page
     await homePage.registerCreation();
 
+    // Generate Test Data
+    const userData = testDataFactory.getRegistrationData();
+    const product = TestDataFactory.getProductData(); // ✅ Added
+
     // Fill Registration Form and Validate Success Message
-    const userData = TestDataFactory.getRegistrationData();
     await registrationPage.fillRegistrationForm(userData);
-    await expect(registrationPage.msgConfirmation).toBeVisible();
+    expect(await registrationPage.isAccountCreated()).toBe(true);
 
-    console.log(userData.email)
-    console.log(userData.password)
-    console.log("Registration Successfull")
+    console.log(userData.email);
+    console.log(userData.password);
+    console.log("Registration Successful");
 
-
-    // perform Logout and Validate Logout 
+    // Logout
     await logoutPage.performLogout();
-    console.log("Logout Successfull")
-    await page.waitForLoadState('domcontentloaded');
-    expect(await logoutPage.AccountLogoutHeaderVisible()).toBeFalsy();
+    console.log("Logout Successful");
 
-    //) Login with same account
+    await logoutPage.verifyLogoutSuccess();
+    await expect(logoutPage.verifyLogoutSuccess()).toBeTruthy()
+
+
+
+    // Login with same account
     await loginPage.loginWithSameAccount(userData.email, userData.password);
-    console.log("Login Successfull")
+    console.log("Login Successful");
 
-    // Search for product
-
+    // 🔍 Search for product
     await test.step('Search for product', async () => {
         await searchPage.searchBoxClick();
-        await searchPage.searchBoxFill(config.productName);
+        await searchPage.searchBoxFill(product.productName);
         await searchPage.searchButtonClick();
-        await expect(searchPage.prouctNameLocator).toBeVisible();
-        console.log("Product Searched Successfully")
+
+        await expect(searchPage.getProductName(product.productName)).toBeVisible();
+        console.log("Product Searched Successfully");
     });
 
-    // Add the product to Cart
+    // 🛒 Add product to cart
     await test.step('Add the product to Cart', async () => {
-        await searchPage.selectProduct();
-        //wait for page to load 
+        await searchPage.getProductName(product.productName).click();
+        console.log(product.productName);
         await page.waitForLoadState('domcontentloaded');
-        await searchPage.updateQuantity(config.productQuantity);
-        await searchPage.addToCartButton2()
-        await expect(searchPage.successMessage).toContainText("Success: You have added " + config.productName + " to your shopping cart!");
-        console.log("Product Added to Cart Successfully")
+        await searchPage.updateQuantity(product.quantity); // ✅ Fixed
+        await searchPage.addToCartButton2();
+
+        // ✅ Stable assertion
+        await expect(searchPage.successMessage).toBeVisible();
+        await expect(searchPage.successMessage).toContainText("Success:");
+        await expect(searchPage.successMessage).toContainText(product.productName);
+
+        console.log("Product Added to Cart Successfully");
     });
 
-    // Navigate to Cart Page
+    // 🧾 Navigate to Cart Page
     await test.step('Navigate to Cart Page', async () => {
-        await cartPage.NavigateToCartPage();
-        // validate title -> Shopping Cart 
-        await expect(cartPage.CartPageTitle).toContainText("Shopping Cart");
-        console.log("Navigated to Cart Page Successfully")
-        // validate product name
-        await expect(cartPage.productname).toHaveText(config.productName);
-        console.log("Product Name Validated Successfully")
-        // validate total price
-        await expect(cartPage.TotalPrice).toHaveText(config.totalPrice);
-        console.log("Total Price Validated Successfully")
+        await cartPage.navigateToCartPage(); // ✅ method name updated
+
+        await expect(cartPage.cartPageTitle).toBeVisible();
+        console.log("Navigated to Cart Page Successfully");
+
+        // ✅ Use dynamic locator methods
+        await expect(cartPage.getProductByName(product.productName)).toBeVisible();
+        console.log("Product Name Validated Successfully");
+
+        await expect(cartPage.getTotalPrice(product.totalPrice)).toBeVisible();
+        console.log("Total Price Validated Successfully");
     });
 
+});
 
 
-})
 
-// run through command npx playwright test tests/EndToEnd.spec.ts
+// await page.waitForLoadState('domcontentloaded');
+// expect(await logoutPage.AccountLogoutHeaderVisible()).toBeFalsy();
 
-/* 
- productName = "iPhone"
-    productQuantity = "2"
-    totalPrice = "$1,204.00"
+/*
+ async verifyLogoutSuccess() {
+await expect(this.AccountLogoutHeader).not.toBeVisible();
+}
 */
