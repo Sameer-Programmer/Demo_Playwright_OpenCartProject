@@ -1,0 +1,7 @@
+user1774442786001@test.com
+ZgmyIlpyTx
+Registration Successfull
+Logout Successfull
+Login Successfull
+Product Searched Successfully
+Product Added to Cart Successfully

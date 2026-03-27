@@ -57,9 +57,11 @@ To Open the reports : allure open
  *
  * npx playwright test -why this - to run the tests
  *
- * allure generate ./allure-results -o ./allure-report --clean -why this - to generate allure reports
+ * allure generate ./allure-results -o ./allure-report --clean 
+ * 
+ * -why this - to generate allure reports
  *
- * allure open ./allure-report -why this - to open the allure reports
+ * allure open ./allure-report              -why this - to open the allure reports
  
 //Step 6 
 

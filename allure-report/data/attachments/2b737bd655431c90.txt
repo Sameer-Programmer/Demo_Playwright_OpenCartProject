@@ -1,0 +1,13 @@
+https://tutorialsninja.com/demo
+Your Account Has Been Created!
+user1774590313410@test.com
+0WorDkjvME
+Registration Successful
+Logout Successful
+Login Successful
+Product Searched Successfully
+iPhone
+Product Added to Cart Successfully
+Navigated to Cart Page Successfully
+Product Name Validated Successfully
+Total Price Validated Successfully

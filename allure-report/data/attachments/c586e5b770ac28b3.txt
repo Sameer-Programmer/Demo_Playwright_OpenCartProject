@@ -1,0 +1,12 @@
+https://tutorialsninja.com/demo
+user1774522311184@test.com
+YnKekNGq7h
+Registration Successful
+Logout Successful
+Login Successful
+Product Searched Successfully
+iPhone
+Product Added to Cart Successfully
+Navigated to Cart Page Successfully
+Product Name Validated Successfully
+Total Price Validated Successfully

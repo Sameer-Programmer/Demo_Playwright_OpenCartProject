@@ -1,0 +1,7 @@
+user1774442698535@test.com
+2Nbi6w6Kug
+Registration Successfull
+Logout Successfull
+Login Successfull
+Product Searched Successfully
+Product Added to Cart Successfully
