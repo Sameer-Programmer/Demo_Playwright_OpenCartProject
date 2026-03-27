@@ -1,0 +1,10 @@
+user1774449891691@test.com
+vM4Mo9Jzl4
+Registration Successfull
+Logout Successfull
+Login Successfull
+Product Searched Successfully
+Product Added to Cart Successfully
+Navigated to Cart Page Successfully
+Product Name Validated Successfully
+Total Price Validated Successfully

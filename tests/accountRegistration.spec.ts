@@ -37,6 +37,7 @@ test("UserRegistration_001 @master @sanity @regression @smoke", async ({ page })
     //Fill the register Details 
 
     await registrationPage.performRegistration(firstName, lastName, email, telephone, password);
+    console.log(config.appUrl)
     console.log(`First Name : ${firstName}`)
     console.log(`Last Name : ${lastName}`)
     console.log(`Email : ${email}`)
