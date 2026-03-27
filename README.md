@@ -157,3 +157,5 @@ The project includes a declarative `Jenkinsfile` for Jenkins CI.
 --- 
 
 **Happy Testing!** 🎉
+
+https://www.notion.so/sameer105/16-End-to-End-Playwright-Jenkins-CI-CD-Setup-Guide-3307bfa29d7d808da3bee09241f19df2?source=copy_link
