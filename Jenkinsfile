@@ -42,10 +42,9 @@ pipeline {
                             returnStatus: true
                         )
 
-                        // 🔥 Key Logic
                         if (exitCode != 0) {
                             currentBuild.result = 'UNSTABLE'
-                            echo "⚠️ Some tests failed. Marking build as UNSTABLE."
+                            echo "⚠️ Some tests failed"
                         }
                     }
                 }
@@ -55,14 +54,13 @@ pipeline {
 
     post {
         always {
-        echo "Generating Allure Report..."
+            echo "Generating Allure Report..."
 
-        bat 'npx allure generate ./allure-results --clean -o ./allure-report'
+            bat 'npx allure generate ./allure-results --clean -o ./allure-report'
 
-        allure includeProperties: false,
-               jdk: '',
-               results: [[path: 'allure-results']]
-    }
-}
+            allure includeProperties: false,
+                   jdk: '',
+                   results: [[path: 'allure-results']]
+        }
     }
 }
