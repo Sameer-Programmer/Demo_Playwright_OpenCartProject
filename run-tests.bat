@@ -1,3 +1,4 @@
+echo ENV_FILE path: %ENV_FILE%
 @echo off
 echo Using secure .env file from Jenkins
 
