@@ -15,9 +15,13 @@ pipeline {
         }
 
         stage('Run Tests') {
-            steps {
-                bat 'npx playwright test'
-            }
+    steps {
+        withCredentials([file(credentialsId: 'ENV_FILE', variable: 'ENV_FILE')]) {
+            bat '''
+                copy "%ENV_FILE%" .env
+                npx playwright test
+            '''
         }
     }
+    
 }
