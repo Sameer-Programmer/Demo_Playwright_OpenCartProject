@@ -24,6 +24,10 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'ENV_FILE', variable: 'ENV_FILE')]) {
                     bat """
+                        echo Selected ENV: %ENV%
+                        echo Headless Mode: %HEADLESS%
+                        echo Running Suite: %SUITE%
+
                         copy "%ENV_FILE%" .env
 
                         echo ENV=%ENV%> temp.env
@@ -35,6 +39,12 @@ pipeline {
                     """
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            bat 'npx allure generate ./allure-results --clean -o ./allure-report'
         }
     }
 }
