@@ -55,8 +55,14 @@ pipeline {
 
     post {
         always {
-            echo "Generating Allure Report..."
-            bat 'npx allure generate ./allure-results --clean -o ./allure-report'
-        }
+        echo "Generating Allure Report..."
+
+        bat 'npx allure generate ./allure-results --clean -o ./allure-report'
+
+        allure includeProperties: false,
+               jdk: '',
+               results: [[path: 'allure-results']]
+    }
+}
     }
 }
