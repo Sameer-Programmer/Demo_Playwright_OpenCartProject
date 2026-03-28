@@ -56,11 +56,11 @@ pipeline {
         always {
             echo "Generating Allure Report..."
 
-            bat 'npx allure generate ./allure-results --clean -o ./allure-report'
-
             allure includeProperties: false,
                    jdk: '',
-                   results: [[path: 'allure-results']]
+                   commandline: 'allure',
+                   results: [[path: 'allure-results']],
+                   report: 'allure-report'
         }
     }
 }
