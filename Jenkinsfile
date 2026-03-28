@@ -23,20 +23,31 @@ pipeline {
         stage('Run Tests') {
             steps {
                 withCredentials([file(credentialsId: 'ENV_FILE', variable: 'ENV_FILE')]) {
-                    bat """
-                        echo Selected ENV: %ENV%
-                        echo Headless Mode: %HEADLESS%
-                        echo Running Suite: %SUITE%
+                    script {
+                        def exitCode = bat(
+                            script: """
+                                echo Selected ENV: %ENV%
+                                echo Headless Mode: %HEADLESS%
+                                echo Running Suite: %SUITE%
 
-                        copy "%ENV_FILE%" .env
+                                copy "%ENV_FILE%" .env
 
-                        echo ENV=%ENV%> temp.env
-                        echo HEADLESS=%HEADLESS%>> temp.env
-                        type .env >> temp.env
-                        move /Y temp.env .env
+                                echo ENV=%ENV%> temp.env
+                                echo HEADLESS=%HEADLESS%>> temp.env
+                                type .env >> temp.env
+                                move /Y temp.env .env
 
-                        npm run test:%SUITE%
-                    """
+                                npm run test:%SUITE%
+                            """,
+                            returnStatus: true
+                        )
+
+                        // 🔥 Key Logic
+                        if (exitCode != 0) {
+                            currentBuild.result = 'UNSTABLE'
+                            echo "⚠️ Some tests failed. Marking build as UNSTABLE."
+                        }
+                    }
                 }
             }
         }
@@ -44,6 +55,7 @@ pipeline {
 
     post {
         always {
+            echo "Generating Allure Report..."
             bat 'npx allure generate ./allure-results --clean -o ./allure-report'
         }
     }
