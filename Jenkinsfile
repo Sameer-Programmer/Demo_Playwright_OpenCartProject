@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Hello Sameer - Pipeline Working!'
+                bat 'npm install'
             }
         }
     }
