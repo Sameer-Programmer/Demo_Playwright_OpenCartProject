@@ -2,7 +2,7 @@ import { test, expect } from "../tests/Fixtures/baseTest";
 import { TestDataFactory } from "../utils/TestDataFactory";
 import { getEnvConfig } from "../config/env.config";
 
-test("End to End flow", async ({ page,
+test("End to End flow @master", async ({ page,
     registrationPage,
     homePage,
     searchPage,

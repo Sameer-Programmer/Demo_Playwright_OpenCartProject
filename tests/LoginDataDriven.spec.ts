@@ -21,7 +21,7 @@ let accountPage: MyAccountPage;
 
 
 for (const data of jsonTestData) {
-    test(`Login by ${data.testName} @dataDriven`, async ({ page }) => {
+    test(`Login by ${data.testName} @dataDriven @master` , async ({ page }) => {
         homePage = new HomePage(page);
         loginpage = new LoginPage(page);
         config = new TestConfig();
@@ -48,7 +48,7 @@ const csvPath = "testdata/login_test_data.csv";
 const csvTestData: any[] = DataProvider.getTestDatafromCSV(csvPath);
 
 for (const data of csvTestData) {
-    test(`Login with ${data.testName} @dataDriven`, async ({ page }) => {
+    test(`Login with ${data.testName} @dataDriven @master`, async ({ page }) => {
         homePage = new HomePage(page);
         loginpage = new LoginPage(page);
         config = new TestConfig();

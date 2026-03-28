@@ -10,7 +10,7 @@ import { getEnvConfig } from "../config/env.config";
 // run this below test.describe block in serial mode
 test.describe.configure({ mode: 'serial' });
 
-test.describe("Test 1", () => {
+test.describe("Test 1 @master", () => {
    const config = getEnvConfig();
     let page: Page;
     let homePage: HomePage;
