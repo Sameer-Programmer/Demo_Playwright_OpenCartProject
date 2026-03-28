@@ -1,1 +1,1 @@
-[{"name":"Jenkins","type":"jenkins","url":"http://localhost:8080/","buildOrder":8,"buildName":"PawanSir_LocalMachine #8","buildUrl":"http://localhost:8080/job/PawanSir_LocalMachine/8/","reportName":"AllureReport","reportUrl":"http://localhost:8080/job/PawanSir_LocalMachine/8/allure"}]
+[{"name":"Jenkins","type":"jenkins","url":"http://localhost:8080/","buildOrder":10,"buildName":"PawanSir_LocalMachine #10","buildUrl":"http://localhost:8080/job/PawanSir_LocalMachine/10/","reportName":"AllureReport","reportUrl":"http://localhost:8080/job/PawanSir_LocalMachine/10/allure"}]
