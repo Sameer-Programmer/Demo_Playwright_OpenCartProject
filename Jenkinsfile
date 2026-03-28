@@ -23,10 +23,16 @@ pipeline {
         stage('Run Tests') {
             steps {
                 withCredentials([file(credentialsId: 'ENV_FILE', variable: 'ENV_FILE')]) {
-                    bat '''
+                    bat """
                         copy "%ENV_FILE%" .env
-                        npx playwright test
-                    '''
+
+                        echo ENV=%ENV%> temp.env
+                        echo HEADLESS=%HEADLESS%>> temp.env
+                        type .env >> temp.env
+                        move /Y temp.env .env
+
+                        npm run test:%SUITE%
+                    """
                 }
             }
         }
