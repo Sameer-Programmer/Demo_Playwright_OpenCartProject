@@ -58,7 +58,7 @@ pipeline {
 
             allure includeProperties: false,
                    jdk: '',
-                   commandline: 'allure',
+                   commandline: 'Allure',
                    results: [[path: 'allure-results']],
                    report: 'allure-report'
         }
