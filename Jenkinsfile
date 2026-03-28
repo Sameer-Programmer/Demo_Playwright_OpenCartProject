@@ -7,5 +7,11 @@ pipeline {
                 bat 'npm install'
             }
         }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                bat 'npx playwright install'
+            }
+        }
     }
 }
