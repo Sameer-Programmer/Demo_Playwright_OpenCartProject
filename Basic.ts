@@ -86,4 +86,11 @@ example : npm run test:master --it will execute this command : npx playwright te
 
 to run the testcases in serial mode 
 test.describe.configure({ mode: 'serial' });
+
+
+Step 8
+Regrading Setup of Playwrigth AI Agents
+Command to Install Playwright Agents 
+npm install init-agents --loop = google antigravity 
+
 */
