@@ -6,7 +6,7 @@
 [![npm](https://img.shields.io/badge/npm-v9+-red)](https://www.npmjs.com/)
 [![GitHub Actions](https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject/actions/workflows/playwright.yml/badge.svg)](https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject/actions/workflows/playwright.yml)
 
-This repository showcases a robust Playwright automation framework meticulously crafted for testing an OpenCart e-commerce application. It's designed with best practices in mind, leveraging **TypeScript** for enhanced code quality and the **Page Object Model (POM)** for better maintainability and scalability. 🧪
+This repository showcases a robust Playwright automation framework meticulously crafted for testing an OpenCart e-commerce application. It is designed with industry best practices, leveraging **TypeScript** for type safety and the **Page Object Model (POM)** for enhanced maintainability and scalability.
 
 ## 📚 Table of Contents
 
@@ -19,143 +19,113 @@ This repository showcases a robust Playwright automation framework meticulously 
 - [▶️ Running Tests](#%EF%B8%8F-running-tests)
 - [📊 Reporting](#-reporting)
 - [🔄 CI/CD Integration](#-cicd-integration)
-- [🤝 Contributing](#-contributing)
 
 ## ✨ Features
 
-This framework is packed with powerful features to streamline your test automation efforts:
-
--   **Playwright**: 🌐 A cutting-edge end-to-end testing framework for modern web applications, ensuring reliable and fast test execution.
--   **TypeScript**: ✍️ Enhances code quality, readability, and maintainability with static typing, catching errors early in the development cycle.
--   **Page Object Model (POM)**: 🏗️ Implements POM to separate page-specific logic from test scripts, making the suite easier to maintain.
--   **Centralized Configuration**: ⚙️ Manage application URLs, credentials, and test data in a single `test.config.ts` file for easy maintenance.
--   **Data-Driven Testing**: 📊 Supports reading test data from various sources like **JSON** and **CSV** files, powered by custom utilities.
--   **Random Data Generation**: 🎲 Integrates `@faker-js/faker` via `RandomDataUtil` to generate realistic and dynamic test data (names, emails, addresses, etc.) on the fly.
--   **Comprehensive Reporting**: 📈 Multi-reporter setup including Allure, HTML, Dot, and List reporters for detailed test analysis.
--   **Cross-Browser Testing**: 🌍 Configured to execute tests across major browsers including Chromium, Firefox, and WebKit.
--   **GitHub Actions**: 🚀 Automated test execution on every push and pull request, enabling continuous integration.
+- **Playwright Test Runner**: High-performance end-to-end testing with built-in support for parallel execution, retries, and multi-browser testing.
+- **TypeScript Integration**: Full type safety and modern JavaScript features for a more reliable codebase.
+- **Page Object Model (POM)**: Clean separation of page-specific logic and locators from test scripts.
+- **Custom Fixtures**: Advanced use of Playwright fixtures to automate page object instantiation and environment setup.
+- **Multi-Environment Support**: Dynamic configuration loading for `dev`, `qa`, `preprod`, and `prod` environments.
+- **Data-Driven Testing**: Built-in utilities to drive tests using **JSON** and **CSV** data sources.
+- **Dynamic Data Generation**: Integration with `@faker-js/faker` for generating realistic test data on the fly.
+- **Comprehensive Reporting**: Integrated with **Allure Reports** and standard Playwright HTML reports for detailed execution analysis.
+- **CI/CD Ready**: Pre-configured workflows for **GitHub Actions** and **Jenkins** pipelines.
 
 ## 🚀 Getting Started
 
-Follow these simple steps to get the Playwright test suite up and running on your local machine.
-
 ### ✅ Prerequisites
 
-Before you begin, ensure you have the following software installed:
-
-> [!NOTE]
-> -   **Node.js**: Version 18 or higher. Verify your installation with `node -v`.
-> -   **npm**: Node Package Manager, which comes bundled with Node.js. Verify with `npm -v`.
+Ensure you have the following installed:
+- **Node.js**: Version 18 or higher.
+- **npm**: Version 9 or higher.
 
 ### 🛠️ Installation
 
-1.  **Clone the repository**:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject.git
+   cd Demo_Playwright_OpenCartProject
+   ```
 
-    ```bash
-    git clone https://github.com/Sameer-Programmer/Demo_Playwright_OpenCartProject.git
-    cd Demo_Playwright_OpenCartProject
-    ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-2.  **Install project dependencies**:
+3. **Install Playwright browsers**:
+   ```bash
+   npx playwright install chromium
+   ```
 
-    ```bash
-    npm install
-    ```
+## ⚙️ Configuration
 
-3.  **Install Playwright browsers**:
+The framework supports two layers of configuration:
 
-    ```bash
-    npx playwright install
-    ```
+### 1. Static Configuration (`test.config.ts`)
+Contains application-specific constants such as the base URL, default credentials, and product details used in functional tests.
 
-## ⚙️ Environment Configuration & Credential Management
+### 2. Environment-Based Configuration (`config/env.config.ts`)
+Uses `dotenv` to load environment variables. This is ideal for CI/CD pipelines where credentials are injected as secrets.
+- **Local**: Create a `.env` file at the root.
+- **CI**: Set environment variables like `QA_URL`, `QA_USERNAME`, and `QA_PASSWORD`.
 
-The framework uses a **Multi-Environment Credential Management System** to safely handle multiple environments (`dev`, `qa`, `preprod`, `prod`) without hardcoding any secrets.
-
-### Local Execution (`.env`)
-1. An `.env` file (ignored by Git) lives at the project root.
-2. It contains credentials and URLs for all environments using prefixes (e.g., `QA_USERNAME`, `QA_PASSWORD`).
-3. You select the active environment by changing the `ENV=qa` variable at the top of the `.env` file.
-4. **Important**: Never commit real credentials! Use the `.env.example` file as a template.
-
-### Playwright Integration (`env.config.ts`)
-The `config/env.config.ts` file dynamically loads the appropriate variables based on the active `ENV`. 
-Playwright automatically sets the `baseURL` in `playwright.config.ts` so your test scripts only need to use relative paths (e.g., `page.goto('/login')`).
-
-If you need credentials in your tests, simply import the config manager:
-```typescript
-import { getEnvConfig } from './config/env.config';
-const config = getEnvConfig();
-
-// Use config.username, config.password, etc.
-```
 ## 📂 Project Structure
 
-This project adopts a well-organized structure to keep tests, page objects, and utilities neatly separated:
-
-```
+```text
 Demo_Playwright_OpenCartProject/
-├── pages/                         # Page Object Model (POM) classes
-│   ├── HomePage.ts                # Locators and actions for the Home page
-│   └── RegistrationPage.ts        # Locators and actions for the Registration page
-├── utils/                         # Utility classes and helper functions
-│   ├── RandomDataGenerator.ts     # Faker-based random data generation
-│   └── dataPovider.ts             # JSON and CSV data reading utilities
-├── tests/                         # All test files
-│   └── example.spec.ts            # Example Playwright test
-├── playwright.config.ts           # Main Playwright test configuration
-├── test.config.ts                 # Application-specific test configuration
-├── package.json                   # Project metadata and dependencies
-├── Basic.ts                       # Framework design notes and instructions
-└── README.md                      # This README file
+├── .github/workflows/     # GitHub Actions CI/CD pipelines
+├── allure-results/        # Raw Allure execution data
+├── config/                # Environment configuration logic
+├── pages/                 # Page Object Model classes
+├── testdata/              # JSON and CSV data files
+├── tests/                 # Test specifications
+│   └── Fixtures/          # Custom Playwright fixtures
+├── types/                 # TypeScript type definitions
+├── utils/                 # Data factories and utility classes
+├── playwright.config.ts   # Playwright runner configuration
+├── test.config.ts         # Application-specific constants
+└── Jenkinsfile            # Jenkins pipeline definition
 ```
 
 ## ▶️ Running Tests
 
-Tests can be executed using the Playwright Test Runner. The `playwright.config.ts` is configured with a 30-second timeout and runs tests sequentially (`fullyParallel: false`) for better stability.
+The project includes several npm scripts for common test execution scenarios:
 
--   **Run all tests**:
+| Command | Description |
+|---------|-------------|
+| `npm run test:master` | Run all tests tagged with `@master` |
+| `npm run test:sanity` | Run sanity test suite |
+| `npm run test:regression` | Run full regression suite |
+| `npm run test:datadriven` | Run data-driven tests |
+| `npx playwright test` | Run all tests in the `tests/` directory |
 
-    ```bash
-    npx playwright test
-    ```
-
--   **Run tests on a specific browser (e.g., Chromium)**:
-
-    ```bash
-    npx playwright test --project=chromium
-    ```
-
--   **Run tests in UI mode (interactive)**:
-
-    ```bash
-    npx playwright test --ui
-    ```
+### Execution Options
+- **Headed Mode**: `npm run test:master:headed`
+- **Debug Mode**: `npm run test:sanity:debug`
+- **UI Mode**: `npx playwright test --ui`
 
 ## 📊 Reporting
 
-This framework provides multiple reporting options:
+### Allure Reports
+1. **Generate Report**:
+   ```bash
+   npm run allure:report
+   ```
+2. **View Report**: The command above will automatically open the report in your default browser.
 
--   **HTML Reports**: 📄 View the interactive report with `npx playwright show-report`.
--   **Allure Reports**: 📊 Rich, interactive reports generated via `allure-playwright`.
--   **Console Reporters**: 💻 `dot` and `list` reporters for real-time feedback in the terminal.
+### Playwright HTML Report
+```bash
+npx playwright show-report
+```
 
-## 🔄 CI/CD Integration (GitHub Actions & Jenkins)
-
-This project supports seamless execution across local and CI environments using the same codebase, securely injecting credentials dynamically.
+## 🔄 CI/CD Integration
 
 ### GitHub Actions
-The `.github/workflows/playwright.yml` pipeline triggers on push, pull requests, and manual dispatches (where you can select the target environment).
-- **Secrets Management**: It maps GitHub Repository Secrets (e.g., `${{ secrets.QA_PASSWORD }}`) directly into the runner's environment variables. 
-- Playwright automatically consumes these instead of looking for the `.env` file.
+The workflow in `.github/workflows/playwright.yml` automatically runs tests on every push and pull request to the `main` or `master` branches. It supports manual triggers with environment selection.
 
-### Jenkins Pipeline
-The project includes a declarative `Jenkinsfile` for Jenkins CI.
-- **Environment Selection**: Uses a manual UI dropdown parameter to select the target environment (`dev`, `qa`, `preprod`, `prod`).
-- **Secrets Management**: It pulls credentials natively from the Jenkins Credentials Vault using the `credentials('QA_PASSWORD')` binding syntax, meaning passwords never appear in logs or source control.
+### Jenkins
+A `Jenkinsfile` is provided to support Jenkins pipelines, including credential binding and environment-specific execution.
 
---- 
-
-**Happy Testing!** 🎉
-
-https://www.notion.so/sameer105/16-End-to-End-Playwright-Jenkins-CI-CD-Setup-Guide-3307bfa29d7d808da3bee09241f19df2?source=copy_link
+---
+**Maintained by [Sameer-Programmer](https://github.com/Sameer-Programmer)**
